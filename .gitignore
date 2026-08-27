@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+*/.DS_Store
+
+# Local / personal editor & AI-agent settings (not project config)
+.vscode/
+
+# Build / dependency output (kept for future use)
+node_modules/
+dist/
+build/
+
+# Logs
+*.log
