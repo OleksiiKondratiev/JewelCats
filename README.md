@@ -26,5 +26,7 @@ node docs/bugs/repro.js     # reproduces the documented engine defects (exit 1 =
 ## Known issues
 
 The work-item board is [docs/bugs/README.md](docs/bugs/README.md) — 13 items with severity,
-reproduction steps, root cause, suggested fix and acceptance criteria.
+reproduction steps, root cause, suggested fix and acceptance criteria. Each item is mirrored as a
+[GitHub issue](https://github.com/OleksiiKondratiev/JewelCats/issues) (`#1`–`#13`); the markdown
+file in `docs/bugs/` holds the full write-up.
 
