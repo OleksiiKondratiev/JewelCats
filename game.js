@@ -375,9 +375,11 @@
     // Trigger specials' area effects (collect extra cells to clear)
     const extraClear = collectSpecialClears(specials, matched);
 
-    // Build the full set of cells to clear, but keep every newly-created
-    // special's birth cell alive so it survives its own match.
-    const keep = new Set(specials.map((sp) => key(sp.r, sp.c)));
+    // Build the full set of cells to clear, but keep the birth cell of any newly
+    // created special alive so it survives its own match. Only runs of length >= 4
+    // actually spawn a special (line/bomb); a plain 3-match (including the two
+    // arms of an L-shape) must clear completely, so len-3 birth cells are NOT kept.
+    const keep = new Set(specials.filter((sp) => sp.len >= 4).map((sp) => key(sp.r, sp.c)));
     const clearAll = new Set([...matched, ...extraClear]);
     for (const k of keep) clearAll.delete(k);
 

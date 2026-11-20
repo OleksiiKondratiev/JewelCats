@@ -1,7 +1,9 @@
 # Bug / Work-item tracker
 
 Work items for defects found in the JewelCats codebase (audit of `main` at `5106312` plus the
-uncommitted working-tree changes of 2026-11-17).
+uncommitted working-tree changes of 2026-11-17). BUG-013, BUG-014 and BUG-015 were found on
+2026-11-20 while staging that work; they concern repository hygiene and agent tooling, not game
+logic, and are verified with `git`/`shasum` instead of `repro.js`.
 
 ## How to use
 
@@ -36,7 +38,9 @@ the source of truth for the full write-up; the issue carries the same content pl
 | [BUG-010](BUG-010-specials-array-contains-phantom-len-3-entries.md) | `specials[]` carries entries for plain 3-runs that spawn nothing | Low | API design | Open | `repro.js` (FAIL) | [#10](https://github.com/OleksiiKondratiev/JewelCats/issues/10) |
 | [BUG-011](BUG-011-haspossiblemove-test-is-vacuous.md) | The `hasPossibleMove` test only asserts the return is a boolean | Low | Test quality | Open | Code review (`tests/engine.test.js:213-222`) | [#11](https://github.com/OleksiiKondratiev/JewelCats/issues/11) |
 | [BUG-012](BUG-012-blast-cleared-gems-award-no-score.md) | Gems removed by a special's blast award no points and do not feed the chain bonus | Low | Scoring design | Open | Code review (`game.js:357-361`) | [#12](https://github.com/OleksiiKondratiev/JewelCats/issues/12) |
-| [BUG-013](BUG-013-agent-config-untracked-and-not-gitignored.md) | `.agents/` and `skills-lock.json` are untracked and not ignored | Low | Repo hygiene | Open | `git status` | [#13](https://github.com/OleksiiKondratiev/JewelCats/issues/13) |
+| [BUG-013](BUG-013-agent-config-untracked-and-not-gitignored.md) | `.agents/` and `skills-lock.json` are untracked and not ignored | Low | Repo hygiene | Fixed | `git status --porcelain -uall` | [#13](https://github.com/OleksiiKondratiev/JewelCats/issues/13) |
+| [BUG-014](BUG-014-skills-lock-not-verifiable.md) | `skills-lock.json` records a `computedHash` that matches nothing and pins one skill of four | Low | Repo hygiene | Open | `shasum -a 256` vs lockfile | [#14](https://github.com/OleksiiKondratiev/JewelCats/issues/14) |
+| [BUG-015](BUG-015-grill-me-delegates-to-missing-skill.md) | `grill-me` delegates to a `grilling` skill that does not exist — the skill is a no-op | Low | Agent tooling | Fixed | file content + skill registry | [#15](https://github.com/OleksiiKondratiev/JewelCats/issues/15) |
 
 ## Suggested fix order
 
@@ -45,7 +49,7 @@ the source of truth for the full write-up; the issue carries the same content pl
 2. Then the special-gem cluster: **BUG-001 → BUG-002 → BUG-003 → BUG-007** (all in
    `findMatches` / `collectSpecialClears` / the clear-set builder).
 3. Then state-machine items: **BUG-005, BUG-006, BUG-004**.
-4. Cleanup: **BUG-009, BUG-010, BUG-011, BUG-012, BUG-013**.
+4. Cleanup: **BUG-009, BUG-010, BUG-011, BUG-012, BUG-014**. (BUG-013 and BUG-015 closed 2026-11-20.)
 
 ## Already fixed (working tree, not committed)
 

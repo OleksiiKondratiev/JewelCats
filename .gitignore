@@ -1,8 +1,9 @@
-# macOS
+# macOS. A pattern without a slash matches at every depth, so this already covers
+# ./.DS_Store, cats/.DS_Store, cats/sub/.DS_Store, … (verified with `git check-ignore -v`).
 .DS_Store
-*/.DS_Store
 
-# Local / personal editor & AI-agent settings (not project config)
+# Personal editor / AI-agent settings: machine-specific model names, prompts, token limits.
+# Project agent config is deliberately tracked — see AGENTS.md and .agents/skills/.
 .vscode/
 
 # Build / dependency output (kept for future use)

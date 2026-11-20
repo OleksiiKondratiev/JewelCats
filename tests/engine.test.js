@@ -92,9 +92,15 @@ console.log('findMatches — L-shape adds both arms');
   const g = E.makeGrid(8, (r, c) => E.gem((c + r * 3) % 6));
   g[0][0] = E.gem(5); g[1][0] = E.gem(5); g[2][0] = E.gem(5); // vertical
   g[2][1] = E.gem(5); g[2][2] = E.gem(5);                      // horizontal arm
-  const { matched } = E.findMatches(g, 8);
+  const { matched, specials } = E.findMatches(g, 8);
   assert(matched.has('0-0') && matched.has('2-0'), 'L vertical arm detected');
   assert(matched.has('2-1') && matched.has('2-2'), 'L horizontal arm detected');
+  // An L made of two plain 3-runs spawns NO special, so every cell of the L must
+  // be cleared (the "keep birth cell" logic must NOT preserve len-3 centers).
+  const toPop = E.popSet(matched, specials);
+  const lCells = ['0-0', '1-0', '2-0', '2-1', '2-2'];
+  assert(lCells.every((k) => toPop.has(k)), 'L-shape of two 3-runs clears all 5 L cells');
+  eq(specials.some(s => s.len >= 4), false, 'an L of two 3-runs creates no special gem');
 }
 
 console.log('findMatches — run of 4 yields a special (line)');

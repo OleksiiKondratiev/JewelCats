@@ -148,7 +148,12 @@
   // special gem on the board instead of popping it in the same cascade.
   function popSet(matched, specials) {
     const keep = new Set();
-    for (const sp of specials || []) keep.add(key(sp.r, sp.c));
+    for (const sp of specials || []) {
+      // Only a run that actually spawns a special gem (len>=4 -> line, len>=5 ->
+      // bomb) should have its birth cell preserved. A plain 3-match (or an L made
+      // of two 3-runs) must clear completely, so a len-3 run's center is NOT kept.
+      if (sp.len >= 4) keep.add(key(sp.r, sp.c));
+    }
     const out = new Set();
     for (const k of matched) if (!keep.has(k)) out.add(k);
     return out;
